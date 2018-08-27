@@ -1,0 +1,108 @@
+﻿@model WebApiDemo.ViewModal.StudentViewModal
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+  
+    <div class="form-horizontal">
+        <h4>Student</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+     @*//  @MyContent.mycontent("sdfjdsf")*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit"  value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    //onclick="Save(this);"
+    function Save(ths)
+    {
+        var Url = "http://localhost/WebApi/api/StudentWebApi/CreateStudent";
+        var student = $(ths).closest('form').serializeArray();
+        // {FirstName:'balu',LastName:'dsf',Address:"dsf",Street :"gfd",Email:"dsfd"};
+        $.ajax({
+            type: "POST",
+            url: Url,
+            data: student,
+            success: function (result)
+            {
+                if (result) {
+
+                    window.location.href =$("#BaseUrl").val()+ "/Student/Index";
+                }
+           }
+        });
+        //$.ajax({
+        //    url: Url,
+        //    type: "POST",
+        //    data: {
+        //        student:"balu"
+        //        //FirstName: "we",
+        //        //LastName :"we",
+        //        //Address:"we",
+        //        //Street :"ew", 
+        //        //Email: "we"
+        //    },
+        //    success: function () {
+        //        alert('success');
+
+        //    }
+
+        //})
+        //var data = JSON.stringify(frm.serializeArray());
+        //console.log(frm);
+        //alert(frm);
+    }
+</script>

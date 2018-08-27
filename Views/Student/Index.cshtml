@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Data";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "http://localhost/WebApi/api/StudentWebApi/GetAllStudent",
+            type: "Get",
+            success: function (data) {
+                //alert('success');
+                //console.log(data);
+                for (var i = 0; i < data.length; i++)
+                {
+                    var Row = "<tr><td> " + data[i].FirstName + "<input type='hidden' id='StudentID' value='" + data[i].StudentID + " ' /></td><td>" + data[i].Address + " </td><td><a class='btn btn-primary' id='Edit' href='/WebApplication/Student/Edit?ID=" + data[i].StudentID + "'> Edit</a>  <a  class='btn btn-primary' onclick='Delete(this);' > Delete </a></td></tr>";
+                  
+                    $(Row).appendTo("#students");
+                }
+            },
+            error: function (msg)
+            {
+                alert("error");
+            }
+        });
+    });
+
+    function Delete(ths)
+    {
+        if (confirm("Are you sure to delete this record"))
+        {
+            var StudentID = $(ths).closest('tr').find("#StudentID").val();
+            //var Url = "/WebApplication/Student/Delete?ID=" + StudentID;
+            var Url = "http://localhost/Webapi/api/StudentWebApi/RemoveStudent?ID=" + StudentID;
+           // alert(Url);
+            $.post(Url).success(function (result) {
+                if (result) {
+                    window.location.reload();
+                }
+
+            });
+           //$(ths).attr('href', Url);
+        } 
+
+    }
+</script>
+@*<button> Edit</button>
+<input type='hidden' id='StudentID' value='" + data[i].StudentID + " ' />*@
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div id="body">
+    <section class="content-wrapper main-content">
+        <table id="students" class="table">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayName("Name")</th>
+
+                    <th>@Html.DisplayName("Address")</th>
+                    <th>@Html.DisplayName("Action")</th>
+
+                </tr>
+            </thead>
+
+        </table>
+    </section>
+</div>  
+
+<div>
+
+</div>
